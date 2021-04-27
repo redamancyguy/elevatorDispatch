@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>../../../../ElevatorCtl/Elevator.qml</file>
+        <file>Elevator.qml</file>
+    </qresource>
+</RCC>
