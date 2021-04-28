@@ -27,24 +27,28 @@ Window {
             elevData: ele0
             elevatorId: 1
             loadCount: 12
+            elevatorStatus: 1
         }
         Elevator {
             elevData: ele1
             elevatorId: 2
             even: false
             loadCount: 15
+            elevatorStatus: 1
         }
         Elevator {
             elevData: ele2
             elevatorId: 3
             odd: false
             loadCount: 7
+            elevatorStatus: 1
         }
 
         Elevator {
             elevData: ele3
             elevatorId: 4
             loadCount: 0
+            elevatorStatus: 1
         }
 
         Column {

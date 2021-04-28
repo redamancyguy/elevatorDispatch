@@ -12,6 +12,7 @@ Rectangle {
     property var odd: true
     property var even: true
     property var loadCount: 17
+    property var elevatorStatus: 1
     border.color: "#F0AE03"
     border.width: 3
     Rectangle {
@@ -95,7 +96,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 5
                             anchors.top: parent.top
-                            status: 1
+                            status: elevatorStatus
                             reached: elevData.floor == 20 - index
                         }
                         ElevatorButton {
