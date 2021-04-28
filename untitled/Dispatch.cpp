@@ -18,6 +18,16 @@ void Dispatch::pressup(int index, Person person) {
     peopleup[index].push(person);
 }
 
+int Dispatch::getPeopleNum(){
+    int sum = 0;
+    for(int i=0;i<fNum;i++){
+
+        sum+= this->peopleup[i].size();
+                sum+= this->peopledown[i].size();
+    }
+    return sum;
+}
+
 void Dispatch::pressdown(int index, Person person) {
     peopledown[index].push(person);
 }

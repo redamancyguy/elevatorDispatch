@@ -31,6 +31,7 @@ public:
     int getplace();
     void setplace(int);
     int getmaxW();
+    int getPeopleNum();
     void pushpeopleStay(Person);
     Person getpeopleStayfront();
     int getStayNum();

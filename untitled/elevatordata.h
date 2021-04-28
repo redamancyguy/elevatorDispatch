@@ -14,16 +14,30 @@ class ElevatorData : public QObject
 public:
     explicit ElevatorData(QObject *parent = nullptr);
     Q_PROPERTY(int floor READ floor WRITE setFloor NOTIFY floorChanged)
+    Q_PROPERTY(int direction READ direction WRITE setDirection NOTIFY directionChanged)
     Q_PROPERTY(QVariantList list READ getList NOTIFY listChanged)
     int floor(){
         return _floor;
     }
+
+    int direction(){
+        return _direction;
+    }
+
     void setFloor(int t){
         if(t!=_floor){
             _floor=t;
             floorChanged();
         }
     }
+
+    void setDirection(int t){
+        if(t!=_direction){
+            _direction=t;
+            directionChanged();
+        }
+    }
+
     Q_INVOKABLE void increaseFloor(){
         setFloor(floor()+1);
     }
@@ -47,9 +61,11 @@ public slots:
 private:
     QVariantList _list;
     int _floor;
+    int _direction;
 signals:
     void listChanged();
     void floorChanged();
+    void directionChanged();
 };
 
 #endif // ELEVATORDATA_H

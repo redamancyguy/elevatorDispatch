@@ -57,6 +57,14 @@ void Elevator::display() {
     }
 }
 
+int Elevator::getPeopleNum(){
+    int sum = 0;
+    for(int i=0;i<eNum;i++){
+        sum += this->people[i].size();
+    }
+    return sum;
+}
+
 int Elevator::getW() {
     int sum = 0;
     for (int i = 0; i < fNum; i++) {

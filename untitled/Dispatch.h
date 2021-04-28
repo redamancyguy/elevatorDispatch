@@ -19,6 +19,7 @@ public:
     Elevator &getelevator(int );
     std::queue<Person> &getpeopleup(int );
     std::queue<Person> &getpeopledown(int );
+    int getPeopleNum();
     void leave(int,int);
 };
 
