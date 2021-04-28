@@ -12,6 +12,7 @@ Window {
     width: 580
     height: 600
     minimumWidth: 580
+    minimumHeight: 600
     title: qsTr("电梯调度模拟器")
     property var curr1: 7
     property var curr2: 1
@@ -25,68 +26,115 @@ Window {
         Elevator {
             elevData: ele0
             elevatorId: 1
+            loadCount: 12
+            elevatorStatus: 1
         }
         Elevator {
             elevData: ele1
             elevatorId: 2
+            even: false
+            loadCount: 15
+            elevatorStatus: 1
         }
         Elevator {
             elevData: ele2
             elevatorId: 3
+            odd: false
+            loadCount: 7
+            elevatorStatus: 1
         }
 
         Elevator {
             elevData: ele3
             elevatorId: 4
+            loadCount: 0
+            elevatorStatus: 1
         }
         Column {
-            width: 150
-            height: window.height
+            width: 100
             anchors.top: parent.top
-            anchors.topMargin: 52
-            ListView {
-                interactive: false
-                model: 21
-                spacing: 2
-                height: parent.height
+            Rectangle {
+                height: 57
                 width: 100
-                delegate: Rectangle {
-                    id: rectangle
-                    property var i: 20 - index
-                    width: 105
-                    height: 20
-                    Row {
-                        anchors.fill: parent
-                        spacing: 5
-                        Text {
-                            width: 20
-                            height: 20
-                            text: "F" + i
-                            font.family: "Arial"
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        ElevatorButton {
-                            width: 35
-                            height: 20
-                            text: "🔺"
-                            activated: false
-                            onClicked: {
-                                console.log(i + "上")
+                Text {
+                    text: "Elevator Simulator\n\n@BladeHiker\n@sunwenli"
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    font.pointSize: 7
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: "Arial"
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+
+            Item {
+                height: 462
+                width: 100
+                ListView {
+                    interactive: false
+                    model: 21
+                    spacing: 2
+                    width: 100
+                    height: parent.height
+                    delegate: Rectangle {
+                        id: rectangle
+                        property var i: 20 - index
+                        width: 105
+                        height: 20
+                        Row {
+                            anchors.fill: parent
+                            spacing: 5
+                            Text {
+                                width: 20
+                                height: 20
+                                text: {
+                                    if (i === 0)
+                                        return "B  1"
+                                    if (i < 10)
+                                        return "F  " + i
+                                    return "F" + i
+                                }
+                                font.family: "Arial"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
                             }
-                        }
-                        ElevatorButton {
-                            height: 20
-                            width: 35
-                            text: "🔻"
-                            activated: false
-                            onClicked: {
-                                console.log(i + "下")
+                            ElevatorButton {
+                                width: 35
+                                height: 20
+                                text: "🔺"
+                                activated: false
+                                onClicked: {
+                                    console.log(i + "上")
+                                }
+                            }
+                            ElevatorButton {
+                                height: 20
+                                width: 35
+                                text: "🔻"
+                                activated: false
+                                onClicked: {
+                                    console.log(i + "下")
+                                }
                             }
                         }
                     }
                 }
             }
+            Text {
+                text: "▶ 模拟运行中"
+                font.pointSize: 12
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                height: 40
+                width: 100
+            }
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.75}D{i:8}
+}
+##^##*/
+
