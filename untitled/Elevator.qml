@@ -11,8 +11,7 @@ Rectangle {
     property var elevatorId: 1
     property var odd: true
     property var even: true
-    property var loadCount: 17
-    property var elevatorStatus: 1
+    property var loadCount: elevData.loadCount
     border.color: "#F0AE03"
     border.width: 3
     Rectangle {
@@ -44,7 +43,7 @@ Rectangle {
                     opacity: currFloor === 0 ? 0 : 1
                     height: 30
                     width: 20
-                    text: currFloor == 1 ? -1 : currFloor - 1
+                    text: currFloor == 1 ? "B1" : currFloor - 1
                     color: "#aaa"
                     font.pointSize: 10
                     verticalAlignment: Text.AlignVCenter
@@ -53,7 +52,7 @@ Rectangle {
                 Text {
                     height: 30
                     width: 40
-                    text: currFloor
+                    text: currFloor == 0 ? "B1" : currFloor
                     font.bold: true
                     font.pointSize: 18
                     verticalAlignment: Text.AlignVCenter
@@ -96,7 +95,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 5
                             anchors.top: parent.top
-                            status: elevatorStatus
+                            status: elevData.direction
                             reached: elevData.floor == 20 - index
                         }
                         ElevatorButton {
@@ -106,13 +105,13 @@ Rectangle {
                             anchors.right: parent.right
                             anchors.rightMargin: 5
                             height: 20
-                            width: 30
+                            width: 35
                             text: index === 20 ? -1 : 20 - index
                             onClicked: {
                                 elevData.increaseFloor()
-                                elevData.increaseItem(index)
+                                elevData.increaseItem(20 - index)
                             }
-                            activated: elevData.list[index]
+                            activated: elevData.list[20 - index]
                         }
                     }
                 }
