@@ -3,6 +3,13 @@
 //
 
 #include "Dispatch.h"
+Dispatch::Dispatch(){
+    elevators[1].setplace(5);
+    elevators[2].setplace(10);
+    elevators[3].setplace(15);
+}
+
+
 void Dispatch::press(int index1, int index2, Person person) {
     elevators[index1].press(index2, person);
 }

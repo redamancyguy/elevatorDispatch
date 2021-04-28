@@ -9,6 +9,17 @@ Elevator::Elevator() {
     this->direction = false;
 }
 
+
+void Elevator::press(int index) {
+    if(!this->peopleStay.empty()){
+        this->people[index].push(this->peopleStay.front());
+        this->peopleStay.pop();
+    }
+    else{
+        std::cout<<"电梯里面没有人  别乱按好吗？？？"<<std::endl;
+    }
+}
+
 void Elevator::press(int index, Person person) {
     this->people[index].push(person);
 }
@@ -55,6 +66,11 @@ int Elevator::getW() {
             people[i].pop();
         }
     }
+    for (int j = 0; j < this->peopleStay.size(); j++) {
+        sum += this->peopleStay.front().getW();
+        this->peopleStay.push(this->peopleStay.front());
+        this->peopleStay.pop();
+    }
     return sum;
 }
 
@@ -83,10 +99,31 @@ int Elevator::getplace() {
     return this->place;
 }
 
+
+void Elevator::setplace(int place){
+    this->place = place;
+}
+
 int Elevator::getmaxW() {
     return this->maxW;
 }
 
+
+void Elevator::pushpeopleStay(Person person){
+    this->peopleStay.push(person);
+}
+
+
+int Elevator::getStayNum(){
+    return this->peopleStay.size();
+}
+
+Person Elevator::getpeopleStayfront(){
+    Person pp = this->peopleStay.front();
+    this->peopleStay.pop();
+    return pp;
+}
 std::queue<Person> &Elevator::getpeople(int index) {
     return this->people[index];
 }
+
