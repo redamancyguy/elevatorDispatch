@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle {
     height: 20
     width: 30
-    property var status: 1 //1上 -1下 0停
+    property var status: 1 //1上 0下 -1停
     property var reached: true
     property var highlightColor: "#17a81a"
     property var defaultColor: "#f0f0f0"
@@ -14,7 +14,7 @@ Rectangle {
         text: {
             if (status == 1)
                 return "▲"
-            else if (status == -1)
+            else if (status == 0)
                 return "▼"
             else
                 return ""
