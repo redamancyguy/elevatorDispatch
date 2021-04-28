@@ -11,6 +11,7 @@ Rectangle {
     property var elevatorId: 1
     property var odd: true
     property var even: true
+    property var loadCount: 17
     border.color: "#F0AE03"
     border.width: 3
     Rectangle {
@@ -126,7 +127,7 @@ Rectangle {
             Text {
                 height: 15
                 width: 80
-                text: "12"
+                text: loadCount
                 font.family: "Arial"
                 font.pointSize: 12
                 verticalAlignment: Text.AlignVCenter
