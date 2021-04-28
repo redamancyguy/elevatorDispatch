@@ -50,7 +50,6 @@ Window {
             loadCount: 0
             elevatorStatus: 1
         }
-
         Column {
             width: 100
             anchors.top: parent.top

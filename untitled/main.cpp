@@ -4,7 +4,6 @@
 #include "unistd.h"
 #include "time.h"
 #include "Working.h"
-#include "elevatordata.h"
 #include <QQmlContext>
 int main(int argc, char *argv[])
 {
@@ -21,12 +20,14 @@ int main(int argc, char *argv[])
      qmlRegisterType<ElevatorData>("ElevatorData",1,0,"ElevatorData");
 
     QQmlContext* rootContex = engine.rootContext();
-    QList<ElevatorData*> elevatorDataList;
-       for(int i=0;i<4;++i)elevatorDataList.append(new ElevatorData());
-       rootContex->setContextProperty("ele0",elevatorDataList[0]);
-       rootContex->setContextProperty("ele1",elevatorDataList[1]);
-       rootContex->setContextProperty("ele2",elevatorDataList[2]);
-       rootContex->setContextProperty("ele3",elevatorDataList[3]);
+    Working work;
+
+//    QList<ElevatorData*> elevatorDataList;
+//       for(int i=0;i<4;++i)elevatorDataList.append(new ElevatorData());
+       rootContex->setContextProperty("ele0", work.elevatorDataList[0]);
+       rootContex->setContextProperty("ele1", work.elevatorDataList[1]);
+       rootContex->setContextProperty("ele2", work.elevatorDataList[2]);
+       rootContex->setContextProperty("ele3", work.elevatorDataList[3]);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

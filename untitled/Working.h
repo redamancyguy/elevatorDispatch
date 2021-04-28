@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QTimer>
 #include "elevatordata.h"
+#include "Person.h"
 class Working : public QObject
 {
     Dispatch data;
