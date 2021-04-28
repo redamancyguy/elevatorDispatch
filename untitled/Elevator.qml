@@ -2,20 +2,29 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import ElevatorData 1.0
 
-Item {
-    implicitHeight: 550
+Rectangle {
+    id: rectangle
+    implicitHeight: 560
     implicitWidth: 100
     property ElevatorData elevData: null
     property var currFloor: elevData.floor
     property var elevatorId: 1
+    property var odd: true
+    property var even: true
+    border.color: "#F0AE03"
+    border.width: 3
     Rectangle {
         anchors.centerIn: parent.Center
         width: 80
         height: 550
-        border.color: "#eee"
-        border.width: 1
+        border.width: 0
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        //        border.color: "#eee"
+        //        border.width: 1
+        anchors.horizontalCenter: parent.horizontalCenter
         Column {
-            width: parent.height
+            width: parent.width
             height: parent.height
             spacing: 2
             Text {
@@ -30,10 +39,10 @@ Item {
                 id: status
                 height: 30
                 Text {
-                    opacity: currFloor === 1 ? 0 : 1
+                    opacity: currFloor === 0 ? 0 : 1
                     height: 30
                     width: 20
-                    text: currFloor - 1
+                    text: currFloor == 1 ? -1 : currFloor - 1
                     color: "#aaa"
                     font.pointSize: 10
                     verticalAlignment: Text.AlignVCenter
@@ -49,7 +58,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Text {
-                    opacity: currFloor === 21 ? 0 : 1
+                    opacity: currFloor >= 21 ? 0 : 1
                     height: 30
                     width: 20
                     text: currFloor + 1
@@ -89,6 +98,8 @@ Item {
                             reached: elevData.floor == 20 - index
                         }
                         ElevatorButton {
+                            enabled: (odd && (index % 2))
+                                     || (even && (index % 2 == 0))
                             anchors.top: parent.top
                             anchors.right: parent.right
                             anchors.rightMargin: 5
@@ -125,3 +136,10 @@ Item {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:3}
+}
+##^##*/
+
