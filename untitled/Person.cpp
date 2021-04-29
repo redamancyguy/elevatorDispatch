@@ -3,20 +3,25 @@
 //
 
 #include "Person.h"
-Person::Person(int num, int weight,int destination) {
-    this->num = num;
-    this->weight = weight;
-    this->destination = destination;
+
+Person::Person(int num, int weight, int destination)
+{
+	this->Num = num;
+	this->Weight = weight;
+	this->Destination = destination;
 }
 
-int Person::getW() {
-    return this->weight;
+int Person::GetW() const
+{
+	return this->Weight;
 }
 
-void Person::setW(int weight) {
-    this->weight = weight;
+void Person::SetW(int weight)
+{
+	this->Weight = weight;
 }
 
-int Person::getdestination() {
-    return this->destination;
+int Person::GetDestination() const
+{
+	return this->Destination;
 }

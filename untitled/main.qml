@@ -104,6 +104,7 @@ Window {
                                 horizontalAlignment: Text.AlignHCenter
                             }
                             ElevatorButton {
+                                enabled: i != 20
                                 width: 35
                                 height: 20
                                 text: "🔺"
@@ -124,6 +125,7 @@ Window {
                             }
 
                             ElevatorButton {
+                                enabled: i != 0
                                 height: 20
                                 width: 35
                                 text: "🔻"

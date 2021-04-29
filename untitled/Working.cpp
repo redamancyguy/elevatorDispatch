@@ -1,200 +1,199 @@
 #include "Working.h"
-
+#include "Person.h"
 #include <iostream>
 #include <queue>
 
-#include "Person.h"
 
-Working::Working(QObject *parent) : QObject(parent) {
-  for (int i = 0; i < 6; ++i) elevatorDataList.append(new ElevatorData());
+Working::Working(QObject* parent) : QObject(parent)
+{
+	for (int i = 0; i < 6; ++i) elevatorDataList.append(new ElevatorData());
 
-  connect(this, &Working::nameChanged, [=]() { qDebug() << this->name(); });
+	auto timer = new QTimer(this);
+	QObject::connect(timer, &QTimer::timeout, this, &Working::Flush);
 
-  //  for (int ii = 0; ii < 10; ii++) {
-  //    Person p(rand() % 21, rand() % 200,
-  //             rand() % 21);               // num  weight  destination
-  //    this->data.pressup(rand() % 21, p);  //从一楼 按 上楼按钮
-  //  }
-  //  for (int ii = 0; ii < 10; ii++) {
-  //    Person p(rand() % 21, rand() % 200,
-  //             rand() % 21);                 // num  weight  destination
-  //    this->data.pressdown(rand() % 21, p);  //从一楼 按 上楼按钮
-  //  }
+	for (int i = 0; i < 4; i++)
+	{
+		QObject::connect(elevatorDataList[i], &ElevatorData::fButton,
+		                 &(data.elevators[i]), &Elevator::press);
+	}
 
-  QTimer *timer = new QTimer(this);
-  QObject::connect(timer, &QTimer::timeout, this, &Working::flush);
-
-  for (int i = 0; i < 4; i++) {
-    QObject::connect(elevatorDataList[i], &ElevatorData::fButton,
-                     &(data.elevators[i]), &Elevator::press);
-  }
-
-  QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data),
-                   &Dispatch::pressBtnUp);
-  QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown,
-                   &(this->data), &Dispatch::pressBtnDown);
-  timer->start(500);
+	QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data),
+	                 &Dispatch::PressBtnUp);
+	QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown,
+	                 &(this->data), &Dispatch::PressBtnDown);
+	timer->start(500);
 }
-void Working::flush() {
-  this->setName(this->name() + "!");
 
-  for (int i = 0; i < 4; i++) {
-    this->data.leave(
-        i, this->data.getelevator(i).getplace());  //这一楼层的人都下电梯
+void Working::Flush()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		this->data.Leave(
+			i, this->data.GetElevator(i).GetPlace()); //这一楼层的人都下电梯
 
-    //    for (int y = 0; y < 10; y++) {
-    //      this->data.getelevator(i).press(rand() % 20);
-    //    }
+		if (this->data.GetElevator(i).GetDirection())
+		{
+			for (size_t j = 0;
+			     j <
+			     this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace()).size();
+			     j++)
+			{
+				if (this->data.GetElevator(i).GetDirection() &&
+					(this->data.GetElevator(i).GetW() +
+						this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace()).front().GetW() <
+						this->data.GetElevator(i).GetMaxW()))
+				{
+					this->data.GetElevator(i).PushPeopleStay(
+						this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace())
+						    .front()); //这一层的人进了 电梯 但是还没有确定去
+					//哪个目的地
+					this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace()).pop();
+					j = -1;
+					continue;
+				}
+				this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace())
+				    .push(this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace())
+				              .front());
+				this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace()).pop();
+			}
+		}
+		else
+		{
+			for (size_t j = 0;
+			     j < this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
+			             .size();
+			     j++)
+			{
+				// place 这一层的人都准备上电梯
+				if (!this->data.GetElevator(i).GetDirection() &&
+					(this->data.GetElevator(i).GetW() +
+						this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
+						    .front()
+						    .GetW() <
+						this->data.GetElevator(i).GetMaxW()))
+				{
+					this->data.GetElevator(i).PushPeopleStay(
+						this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
+						    .front()); //这一层的人进了 电梯 但是还没有确定去
+					//哪个目的地
 
-    if (this->data.getelevator(i).getdirection()) {
-      for (int ii = 0;
-           ii <
-           this->data.getpeopleup(this->data.getelevator(i).getplace()).size();
-           ii++) {
-        if (this->data.getelevator(i).getdirection() &&
-            (this->data.getelevator(i).getW() +
-                 this->data.getpeopleup(this->data.getelevator(i).getplace()).front().getW() <
-             this->data.getelevator(i).getmaxW())) {
-          this->data.getelevator(i).pushpeopleStay(
-              this->data.getpeopleup(this->data.getelevator(i).getplace())
-                  .front());  //这一层的人进了 电梯 但是还没有确定去
-                              //哪个目的地
-          this->data.getpeopleup(this->data.getelevator(i).getplace()).pop();
-          ii = -1;
-          continue;
-        }
-        this->data.getpeopleup(this->data.getelevator(i).getplace())
-            .push(this->data.getpeopleup(this->data.getelevator(i).getplace())
-                      .front());
-        this->data.getpeopleup(this->data.getelevator(i).getplace()).pop();
-      }
-    } else {
-      for (int ii = 0;
-           ii < this->data.getpeopledown(this->data.getelevator(i).getplace())
-                    .size();
-           ii++) {  // place 这一层的人都准备上电梯
-        if (!this->data.getelevator(i).getdirection() &&
-            (this->data.getelevator(i).getW() +
-                 this->data.getpeopledown(this->data.getelevator(i).getplace())
-                     .front()
-                     .getW() <
-             this->data.getelevator(i).getmaxW())) {
-          this->data.getelevator(i).pushpeopleStay(
-              this->data.getpeopledown(this->data.getelevator(i).getplace())
-                  .front());  //这一层的人进了 电梯 但是还没有确定去
-                              //哪个目的地
+					this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace()).pop();
+					j = -1;
+					continue;
+				}
+				this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
+				    .push(this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
+				              .front());
+				this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace()).pop();
+			}
+		}
 
-          this->data.getpeopledown(this->data.getelevator(i).getplace()).pop();
-          ii = -1;
-          continue;
-        }
-        this->data.getpeopledown(this->data.getelevator(i).getplace())
-            .push(this->data.getpeopledown(this->data.getelevator(i).getplace())
-                      .front());
-        this->data.getpeopledown(this->data.getelevator(i).getplace()).pop();
-      }
-    }
-
-    std::cout << "--------------------------"
-              << this->data.getelevator(i).getPeopleNum() << std::endl;
-    std::cout << "--------------------------" << this->data.getPeopleNum()
-              << std::endl;
-
-
-    if(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0){
-        std::cout<<"\n=========================== \n"<<std::endl;
-    }
-   else{
-        if(i==1){
-            if(this->data.getPeopleNum(1) > 0 || this->data.getelevator(i).getPeopleNum() > 0){
-                this->data.getelevator(i).move();
-            }
-        }
-        else if(i==2){
-            if(this->data.getPeopleNum(0) > 0 || this->data.getelevator(i).getPeopleNum() > 0){
-                this->data.getelevator(i).move();
-            }
-        }
-        else if (this->data.getelevator(i).getPeopleNum() > 0 ||
-            this->data.getPeopleNum() > 0) {
-                 this->data.getelevator(i).move();
-        }
-    }
-
-    if(this->data.getelevator(i).getdirection()){
-        int sum = 0;
-        for(int ii=this->data.getelevator(i).getplace();ii<fNum;ii++){
-            sum+=this->data.getelevator(i).getpeople(ii).size();
-            sum+=this->data.getpeopleup(ii).size();
-            sum+=this->data.getpeopledown(ii).size();
-        }
-        if(sum == 0 && !(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0)){
-            this->data.getelevator(i).changedirection();// ----------------------------------
-        }
-    }
-
-    else{
-        int sum = 0;
-        for(int ii=this->data.getelevator(i).getplace();ii>=0;ii--){
-            sum+=this->data.getelevator(i).getpeople(ii).size();
-            sum+=this->data.getpeopleup(ii).size();
-            sum+=this->data.getpeopledown(ii).size();
-        }
-        if(sum == 0 && !(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0)){
-            this->data.getelevator(i).changedirection();// -------------------------------
-        }
-    }
+		std::cout << "--------------------------"
+			<< this->data.GetElevator(i).GetPeopleNum() << std::endl;
+		std::cout << "--------------------------" << this->data.GetPeopleNum()
+			<< std::endl;
 
 
-  }
-  std::cout << std::endl;
-  std::cout << "***************" << std::endl;
-  for (int i = 0; i < 4; i++) {
-    std::cout << "place:" << this->data.getelevator(i).getplace()
-              << "    direction:" << this->data.getelevator(i).getdirection()
-              << "weight:" << this->data.getelevator(i).getW() << "    "
-              << std::endl;
-    for (int ii = 0; ii <= fNum - 1; ii++) {
-      std::cout << this->data.getelevator(i).getpeople(ii).size() << " ";
-      elevatorDataList[i]->setValue(
-          ii, this->data.getelevator(i).getpeople(ii).size());  // s nldn
-      elevatorDataList[i]->setpeopleNum(
-          this->data.getelevator(i).getPeopleNum());
-      elevatorDataList[i]->setFloor(this->data.getelevator(i).getplace());
-      elevatorDataList[i]->setDirection(
-          this->data.getelevator(i).getdirection());
-    }
-    std::cout << data.getelevator(i).getStayNum() << " "
-              << data.getelevator(i).getW() << std::endl;
-    std::cout << std::endl;
-  }
+		if (this->data.GetPeopleNum() == 0 && this->data.GetElevator(i).GetPeopleNums() == 0)
+		{
+			std::cout << "\n=========================== \n" << std::endl;
+		}
+		else
+		{
+			if (i == 1)
+			{
+				if (this->data.GetPeopleNum(1) > 0 || this->data.GetElevator(i).GetPeopleNum() > 0)
+				{
+					this->data.GetElevator(i).Move();
+				}
+			}
+			else if (i == 2)
+			{
+				if (this->data.GetPeopleNum(0) > 0 || this->data.GetElevator(i).GetPeopleNum() > 0)
+				{
+					this->data.GetElevator(i).Move();
+				}
+			}
+			else if (this->data.GetElevator(i).GetPeopleNum() > 0 ||
+				this->data.GetPeopleNum() > 0)
+			{
+				this->data.GetElevator(i).Move();
+			}
+		}
 
-  std::cout << std::endl;
-  for (int ii = 0; ii <= fNum - 1; ii++) {
-    std::cout << this->data.getpeopleup(ii).size() << " ";
-    peopleup[ii].setNum(this->data.getpeopleup(ii).size());
-    elevatorDataList[4]->setValue(ii, this->data.getpeopleup(ii).size());
-  }
-  std::cout << std::endl;
-  for (int ii = 0; ii <= fNum - 1; ii++) {
-    std::cout << this->data.getpeopledown(ii).size() << " ";
-    peopledown[ii].setNum(this->data.getpeopledown(ii).size());
-    elevatorDataList[5]->setValue(ii, this->data.getpeopledown(ii).size());
-  }
-  std::cout << std::endl;
-  std::cout << "***************" << std::endl;
-  std::cout << std::endl;
-  //  for (int iii = 0; iii < elevatorDataList[0]->getList().size(); iii++) {
-  //    qDebug() << elevatorDataList[0]->getList()[iii];
-  //  }
-  qDebug() << elevatorDataList[0]->peopleNum();
-}
-void Working::press() { this->setName("456"); }
+		if (this->data.GetElevator(i).GetDirection())
+		{
+			int sum = 0;
+			for (int ii = this->data.GetElevator(i).GetPlace(); ii < fNum; ii++)
+			{
+				sum += this->data.GetElevator(i).GetPeople(ii).size();
+				sum += this->data.GetPeopleUp(ii).size();
+				sum += this->data.GetPeopleDown(ii).size();
+			}
+			if (sum == 0 && !(this->data.GetPeopleNum() == 0 && this->data.GetElevator(i).GetPeopleNums() == 0))
+			{
+				this->data.GetElevator(i).ChangeDirection(); // ----------------------------------
+			}
+		}
 
-void Working::press1() {
-  //  for (int i = 0; i < 100; i++) {
-  //    Person p(rand() % 20, rand() % 200,
-  //             rand() % 20);     // num  weight  destination
-  //    this->data.pressup(1, p);  //从一楼 按 上楼按钮
-  //  }
+		else
+		{
+			int sum = 0;
+			for (int ii = this->data.GetElevator(i).GetPlace(); ii >= 0; ii--)
+			{
+				sum += this->data.GetElevator(i).GetPeople(ii).size();
+				sum += this->data.GetPeopleUp(ii).size();
+				sum += this->data.GetPeopleDown(ii).size();
+			}
+			if (sum == 0 && !(this->data.GetPeopleNum() == 0 && this->data.GetElevator(i).GetPeopleNums() == 0))
+			{
+				this->data.GetElevator(i).ChangeDirection(); // -------------------------------
+			}
+		}
+	}
+	std::cout << std::endl;
+	std::cout << "***************" << std::endl;
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << "place:" << this->data.GetElevator(i).GetPlace()
+			<< "    direction:" << this->data.GetElevator(i).GetDirection()
+			<< "weight:" << this->data.GetElevator(i).GetW() << "    "
+			<< std::endl;
+		for (int j = 0; j <= fNum - 1; j++)
+		{
+			std::cout << this->data.GetElevator(i).GetPeople(j).size() << " ";
+			elevatorDataList[i]->setValue(
+				j, this->data.GetElevator(i).GetPeople(j).size()); // s nldn
+			elevatorDataList[i]->setPeopleNum(
+				this->data.GetElevator(i).GetPeopleNum());
+			elevatorDataList[i]->setFloor(this->data.GetElevator(i).GetPlace());
+			elevatorDataList[i]->setDirection(
+				this->data.GetElevator(i).GetDirection());
+		}
+		std::cout << data.GetElevator(i).GetStayNum() << " "
+			<< data.GetElevator(i).GetW() << std::endl;
+		std::cout << std::endl;
+	}
+
+	std::cout << std::endl;
+	for (int i = 0; i <= fNum - 1; i++)
+	{
+		std::cout << this->data.GetPeopleUp(i).size() << " ";
+		peopleup[i].setNum(this->data.GetPeopleUp(i).size());
+		elevatorDataList[4]->setValue(i, this->data.GetPeopleUp(i).size());
+	}
+	std::cout << std::endl;
+	for (int i = 0; i <= fNum - 1; i++)
+	{
+		std::cout << this->data.GetPeopleDown(i).size() << " ";
+		peopledown[i].setNum(this->data.GetPeopleDown(i).size());
+		elevatorDataList[5]->setValue(i, this->data.GetPeopleDown(i).size());
+	}
+	std::cout << std::endl;
+	std::cout << "***************" << std::endl;
+	std::cout << std::endl;
+	//  for (int iii = 0; iii < elevatorDataList[0]->getList().size(); iii++) {
+	//    qDebug() << elevatorDataList[0]->getList()[iii];
+	//  }
+	qDebug() << elevatorDataList[0]->peopleNum();
 }

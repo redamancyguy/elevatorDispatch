@@ -3,103 +3,120 @@
 //
 
 #include "Dispatch.h"
-Dispatch::Dispatch() {
-  elevators[0].setFlag(0);
-  elevators[0].setplace(1);
-  elevators[0].setmaxW(800);
+#include <iostream>
 
-  elevators[1].setFlag(1);
-  elevators[1].setplace(1);
-  elevators[1].setmaxW(800);
+Dispatch::Dispatch()
+{
+	elevators[0].SetFlag(0);
+	elevators[0].SetPlace(1);
+	elevators[0].SetMaxW(800);
 
-  elevators[2].setFlag(2);
-  elevators[2].setmaxW(800);
-  elevators[2].setplace(0);
+	elevators[1].SetFlag(1);
+	elevators[1].SetPlace(1);
+	elevators[1].SetMaxW(800);
 
-  elevators[3].setFlag(0);
-  elevators[3].setmaxW(2000);
-  elevators[3].setplace(1);
+	elevators[2].SetFlag(2);
+	elevators[2].SetMaxW(800);
+	elevators[2].SetPlace(0);
+
+	elevators[3].SetFlag(0);
+	elevators[3].SetMaxW(2000);
+	elevators[3].SetPlace(1);
 }
 
-// void Dispatch::press(int index1, int index2, Person person) {
-//  elevators[index1].press(index2, person);
-//}
-
-void Dispatch::pressup(int index, Person person) {
-  peopleup[index].push(person);
+void Dispatch::PressUp(const int index, const Person person)
+{
+	PeopleUp[index].push(person);
 }
 
-int Dispatch::getPeopleNum() {
-  int sum = 0;
-  for (int i = 0; i < fNum; i++) {
-    sum += this->peopleup[i].size();
-    sum += this->peopledown[i].size();
-  }
-  return sum;
-}
-
-
-int Dispatch::getPeopleNum(int flag) {
-  int sum = 0;
-  for (int i = 0; i < fNum; i++) {
-      if(i%2==flag){
-          sum += this->peopleup[i].size();
-          sum += this->peopledown[i].size();
-      }
-  }
-  return sum;
+int Dispatch::GetPeopleNum() const
+{
+	int sum = 0;
+	for (int i = 0; i < fNum; i++)
+	{
+		sum += this->PeopleUp[i].size();
+		sum += this->PeopleDown[i].size();
+	}
+	return sum;
 }
 
 
-void Dispatch::pressdown(int index, Person person) {
-  peopledown[index].push(person);
+int Dispatch::GetPeopleNum(const int flag) const
+{
+	int sum = 0;
+	for (int i = 0; i < fNum; i++)
+	{
+		if (i % 2 == flag)
+		{
+			sum += this->PeopleUp[i].size();
+			sum += this->PeopleDown[i].size();
+		}
+	}
+	return sum;
 }
 
-void Dispatch::pressBtnDown(int index) {
-  Person p(rand() % 21, rand() % 200, rand() % 21);
-  this->peopledown[index].push(p);
+
+void Dispatch::PressDown(const int index, const Person person)
+{
+	PeopleDown[index].push(person);
 }
 
-void Dispatch::pressBtnUp(int index) {
-  Person p(rand() % 21, rand() % 200, rand() % 21);
-  this->peopleup[index].push(p);
+void Dispatch::PressBtnDown(const int index)
+{
+	Person p(rand() % 21, rand() % 200, rand() % 21);
+	this->PeopleDown[index].push(p);
 }
 
-void Dispatch::display() {
-  std::cout << "people up" << std::endl;
-  for (int i = 0; i < fNum; i++) {
-    for (int j = 0; j < peopleup[i].size(); j++) {
-      std::cout << i << " " << peopleup[i].front().getW() << std::endl;
-      peopleup[i].push(peopleup[i].front());
-      peopleup[i].pop();
-    }
-  }
-  std::cout << std::endl;
-  std::cout << "people down" << std::endl;
-  for (int i = 0; i < fNum; i++) {
-    for (int j = 0; j < peopledown[i].size(); j++) {
-      std::cout << i << " " << peopledown[i].front().getW() << std::endl;
-      peopledown[i].push(peopledown[i].front());
-      peopledown[i].pop();
-    }
-  }
-  std::cout << std::endl;
-  for (int i = 0; i < eNum; i++) {
-    std::cout << "num:" << i << std::endl;
-    elevators[i].display();
-  }
+void Dispatch::PressBtnUp(const int index)
+{
+	Person p(rand() % 21, rand() % 200, rand() % 21);
+	this->PeopleUp[index].push(p);
 }
 
-Elevator &Dispatch::getelevator(int index) { return this->elevators[index]; }
-
-std::queue<Person> &Dispatch::getpeopleup(int index) {
-  return this->peopleup[index];
+void Dispatch::Display()
+{
+	std::cout << "people up" << std::endl;
+	for (int i = 0; i < fNum; i++)
+	{
+		for (size_t j = 0; j < PeopleUp[i].size(); j++)
+		{
+			std::cout << i << " " << PeopleUp[i].front().GetW() << std::endl;
+			PeopleUp[i].push(PeopleUp[i].front());
+			PeopleUp[i].pop();
+		}
+	}
+	std::cout << std::endl;
+	std::cout << "people down" << std::endl;
+	for (int i = 0; i < fNum; i++)
+	{
+		for (size_t j = 0; j < PeopleDown[i].size(); j++)
+		{
+			std::cout << i << " " << PeopleDown[i].front().GetW() << std::endl;
+			PeopleDown[i].push(PeopleDown[i].front());
+			PeopleDown[i].pop();
+		}
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < eNum; i++)
+	{
+		std::cout << "num:" << i << std::endl;
+		elevators[i].Display();
+	}
 }
 
-std::queue<Person> &Dispatch::getpeopledown(int index) {
-  return this->peopledown[index];
+Elevator& Dispatch::GetElevator(const int index) { return this->elevators[index]; }
+
+std::queue<Person>& Dispatch::GetPeopleUp(const int index)
+{
+	return this->PeopleUp[index];
 }
 
-void Dispatch::leave(int index1, int index2) {
-  this->elevators[index1].leave(index2);
+std::queue<Person>& Dispatch::GetPeopleDown(const int index)
+{
+	return this->PeopleDown[index];
+}
+
+void Dispatch::Leave(const int index1, const int index2)
+{
+	this->elevators[index1].Leave(index2);
 }

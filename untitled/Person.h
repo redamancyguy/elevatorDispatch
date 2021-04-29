@@ -10,16 +10,17 @@
 #define false 0
 #define true 1
 
-class Person{
+class Person
+{
 private:
-    int num;
-    int destination;
-    int weight;
+	int Num;
+	int Destination;
+	int Weight;
 public:
-    Person(int, int ,int);
-    int getW();
-    void setW(int);
-    int getdestination();
+	Person(int, int, int);
+	int GetW() const;
+	void SetW(int);
+	int GetDestination() const;
 };
 
 
