@@ -14,7 +14,9 @@ public:
     Elevator elevators[eNum];
     Dispatch();
     //void press(int , int, Person);//前往 int1  电梯 的 int2  楼层
+    void pressup(int);
     void pressup(int, Person);
+    void pressdown(int);
     void pressdown(int, Person);
     void display();
     Elevator &getelevator(int );

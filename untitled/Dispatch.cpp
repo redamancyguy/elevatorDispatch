@@ -42,6 +42,16 @@ void Dispatch::pressdown(int index, Person person) {
   peopledown[index].push(person);
 }
 
+void Dispatch::pressdown(int index) {
+    Person p(rand() % 21, rand() % 200,rand() % 21);
+    this->peopledown[index].push(p);
+}
+
+void Dispatch::pressup(int index) {
+    Person p(rand() % 21, rand() % 200,rand() % 21);
+    this->peopleup[index].push(p);
+}
+
 void Dispatch::display() {
   std::cout << "people up" << std::endl;
   for (int i = 0; i < fNum; i++) {

@@ -10,12 +10,12 @@ Working::Working(QObject *parent) : QObject(parent) {
 
   connect(this, &Working::nameChanged, [=]() { qDebug() << this->name(); });
 
-  for (int ii = 0; ii < 1000; ii++) {
+  for (int ii = 0; ii < 10; ii++) {
     Person p(rand() % 21, rand() % 200,
              rand() % 21);     // num  weight  destination
     this->data.pressup(rand() % 21, p);  //从一楼 按 上楼按钮
   }
-  for (int ii = 0; ii < 1000; ii++) {
+  for (int ii = 0; ii < 10; ii++) {
     Person p(rand() % 21, rand() % 200,
              rand() % 21);     // num  weight  destination
     this->data.pressdown(rand() % 21, p);  //从一楼 按 上楼按钮
@@ -23,10 +23,13 @@ Working::Working(QObject *parent) : QObject(parent) {
 
   QTimer *timer = new QTimer(this);
   QObject::connect(timer, &QTimer::timeout, this, &Working::flush);
+
     for(int i=0;i<4;i++){
         QObject::connect(elevatorDataList[i], &ElevatorData::fButton, &(data.elevators[i]), &Elevator::press);
     }
 
+    QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data.elevators[0]), &Elevator::press);
+//    QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown, &(this->data), &Dispatch::pressdown);
   timer->start(200);
 }
 void Working::flush() {

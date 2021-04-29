@@ -96,6 +96,8 @@ class ElevatorData : public QObject {
   void loadCountChanged();
    void peopleNumChanged();
    void fButton(int);
+    void fButtonup(int);
+     void fButtondown(int);
 };
 
 #endif  // ELEVATORDATA_H
