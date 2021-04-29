@@ -129,7 +129,7 @@ Window {
                                 text: "🔻"
                                 activated: button1.list[i]
                                 onClicked: {
-                                    button1.fButtonDown(i)
+                                    button1.fButtondown(i)
                                 }
                             }
                             Text {
