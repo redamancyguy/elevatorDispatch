@@ -7,29 +7,29 @@
 #ifndef ELEVATOR_DISPATCH_H
 #define ELEVATOR_DISPATCH_H
 
-class Dispatch : public QObject {  //使用电梯的类
-  Q_OBJECT
-  std::queue<Person> peopleup[fNum];
-  std::queue<Person> peopledown[fNum];  //楼梯门口排队
+class Dispatch : public QObject
+{
+	//使用电梯的类
+Q_OBJECT
+	std::queue<Person> PeopleUp[fNum];
+	std::queue<Person> PeopleDown[fNum]; //楼梯门口排队
 
- public:
-  Elevator elevators[eNum];
-  Dispatch();
-  // void press(int , int, Person);//前往 int1  电梯 的 int2  楼层
+public:
+	Elevator elevators[eNum];
+	Dispatch();
 
-  void pressup(int, Person);
-
-  void pressdown(int, Person);
-  void display();
-  Elevator &getelevator(int);
-  std::queue<Person> &getpeopleup(int);
-  std::queue<Person> &getpeopledown(int);
-  int getPeopleNum();
-  int getPeopleNum(int);
-  void leave(int, int);
- public slots:
-  void pressBtnUp(int);
-  void pressBtnDown(int);
+	void PressUp(int index, Person person);
+	void PressDown(int index, Person person);
+	void Display();
+	Elevator& GetElevator(int index);
+	std::queue<Person>& GetPeopleUp(int index);
+	std::queue<Person>& GetPeopleDown(int index);
+	int GetPeopleNum() const;
+	int GetPeopleNum(int flag) const;
+	void Leave(int index1, int index2);
+public slots:
+	void PressBtnUp(int index);
+	void PressBtnDown(int index);
 };
 
 #endif  // ELEVATOR_DISPATCH_H

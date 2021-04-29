@@ -1,49 +1,48 @@
 //
 // Created by 孙文礼 on 2021/4/27.
 //
-#include "Person.h"
-#include "iostream"
-#include "queue"
-#include "QObject"
 #ifndef ELEVATOR_ELEVATOR_H
 #define ELEVATOR_ELEVATOR_H
+#include "Person.h"
+#include "queue"
+#include "QObject"
 
 
-class Elevator :public QObject {
-    Q_OBJECT
+class Elevator : public QObject
+{
+Q_OBJECT
 private:
-    std::queue<Person> people[fNum]; //电梯的按钮  电梯里面的人下电梯是不会被阻碍的
-    std::queue<Person> peopleStay;
-    int place; //plce number  电梯在第几层
-    bool direction;
-    int maxW;
-    int flag;//1 单层  2 双层 0全层
+	std::queue<Person> people[fNum]; //电梯的按钮  电梯里面的人下电梯是不会被阻碍的
+	std::queue<Person> peopleStay;
+	int place; //plce number  电梯在第几层
+	bool direction;
+	int maxW;
+	int flag; //1 单层  2 双层 0全层
 public:
-    Elevator();
-    void setFlag(int);
-    void moveup();
-    void move();
-    void movedown();
-    void leave(int);//  int目的地是这个楼层的人都下楼了
-    int getW();
-    void display();
-    bool getdirection();
-    void setdirection(bool);
-    void changedirection();
-    int getplace();
-    void setplace(int);
-    int getmaxW();
-    void setmaxW(int);
-    int getPeopleNum();
-    int getPeopleNums();
-    void pushpeopleStay(Person);
-    Person getpeopleStayfront();
-    int getStayNum();
-    std::queue<Person> &getpeople(int );
+	Elevator();
+	void SetFlag(int data);
+	void MoveUp();
+	void Move();
+	void MoveDown();
+	void Leave(int index); //  int目的地是这个楼层的人都下楼了
+	int GetW();
+	void Display();
+	bool GetDirection() const;
+	void SetDirection(bool d);
+	void ChangeDirection();
+	int GetPlace() const;
+	void SetPlace(int p);
+	int GetMaxW() const;
+	void SetMaxW(int data);
+	int GetPeopleNum() const;
+	int GetPeopleNums() const;
+	void PushPeopleStay(Person person);
+	Person GetPeopleStayFront();
+	int getStayNum();
+	std::queue<Person>& GetPeople(int index);
 
-
- public slots:
-    void press(int);//有一个人按下了按钮 //队列中的第一个人准备上电梯  ，目的地为int  目的地由前端给出
+public slots:
+	void press(int index); //有一个人按下了按钮 //队列中的第一个人准备上电梯  ，目的地为int  目的地由前端给出
 };
 
 

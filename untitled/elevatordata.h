@@ -7,83 +7,53 @@
 #include <QString>
 #include <QVariantList>
 
-class ElevatorData : public QObject {
-  Q_OBJECT
- public:
-  explicit ElevatorData(QObject *parent = nullptr);
-  Q_PROPERTY(int floor READ floor WRITE setFloor NOTIFY floorChanged)
-  Q_PROPERTY(
-      int loadCount READ loadCount WRITE setLoadCount NOTIFY loadCountChanged)
-  Q_PROPERTY(
-      int direction READ direction WRITE setDirection NOTIFY directionChanged)
-  Q_PROPERTY(QVariantList list READ getList NOTIFY listChanged)
+class ElevatorData : public QObject
+{
+Q_OBJECT
+public:
+	explicit ElevatorData(QObject* parent = nullptr);
+	Q_PROPERTY(int floor READ floor WRITE setFloor NOTIFY floorChanged)
+	Q_PROPERTY(
+		int direction READ direction WRITE setDirection NOTIFY directionChanged)
+	Q_PROPERTY(QVariantList list READ getList NOTIFY listChanged)
 
-  Q_PROPERTY(
-      int peopleNum READ peopleNum WRITE setpeopleNum NOTIFY peopleNumChanged)
+	Q_PROPERTY(
+		int peopleNum READ peopleNum WRITE setPeopleNum NOTIFY peopleNumChanged)
 
-  int peopleNum() { return _peopleNum; }
-  void setpeopleNum(int t) {
-    if (t != _peopleNum) {
-      _peopleNum = t;
-      emit peopleNumChanged();
-    }
-  }
+	int peopleNum() const { return _peopleNum; }
 
-  int floor() { return _floor; }
+	void setPeopleNum(int t);
 
-  int direction() { return _direction; }
-  int loadCount() { return _loadCount; }
-  void setLoadCount(int t) {
-    if (t != _loadCount) {
-      _loadCount = t;
-      emit loadCountChanged();
-    }
-  }
-  void setFloor(int t) {
-    if (t != _floor) {
-      _floor = t;
-      emit floorChanged();
-    }
-  }
+	int floor() const { return _floor; }
 
-  void setDirection(int t) {
-    if (t != _direction) {
-      _direction = t;
-      emit directionChanged();
-    }
-  }
+	int direction() const { return _direction; }
 
-  Q_INVOKABLE void increaseFloor() { setFloor(floor() + 1); }
+	void setFloor(int t);
 
-  QVariantList getList() const { return _list; }
+	void setDirection(int t);
 
-  Q_INVOKABLE void setValue(int i, int val) {
-    _list[i] = val;
-    emit listChanged();
-  }
+	Q_INVOKABLE void increaseFloor() { setFloor(floor() + 1); }
 
-  Q_INVOKABLE void increaseItem(int i) {
-    _list[i] = _list[i].toInt() + 1;
-    emit listChanged();
-  }
+	QVariantList getList() const { return _list; }
 
- public slots:
+	Q_INVOKABLE void setValue(int i, int val);
 
- private:
-  QVariantList _list;
-  int _floor;
-  int _direction;
-  int _loadCount;
-  int _peopleNum;
- signals:
-  void listChanged();
-  void floorChanged();
-  void directionChanged();
-  void loadCountChanged();
-  void peopleNumChanged();
-  void fButton(int);
-  void fButtonup(int);
-  void fButtondown(int);
+	Q_INVOKABLE void increaseItem(int i);
+
+public slots:
+private:
+	QVariantList _list;
+	int _floor;
+	int _direction;
+	int _peopleNum;
+signals:
+	void listChanged();
+	void floorChanged();
+	void directionChanged();
+	void peopleNumChanged();
+	void fButton(int);
+	void fButtonup(int);
+	void fButtondown(int);
 };
 
 #endif  // ELEVATORDATA_H
