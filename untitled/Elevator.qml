@@ -11,7 +11,7 @@ Rectangle {
     property var elevatorId: 1
     property var odd: true
     property var even: true
-    property var loadCount: elevData.loadCount
+    property var peopleNum: elevData.peopleNum
     border.color: "#F0AE03"
     border.width: 3
     Rectangle {
@@ -118,8 +118,7 @@ Rectangle {
                             width: 35
                             text: index === 20 ? -1 : 20 - index
                             onClicked: {
-                                elevData.increaseFloor()
-                                elevData.increaseItem(20 - index)
+                                elevData.fButton(20 - index)
                             }
                             activated: elevData.list[20 - index]
                         }
@@ -137,7 +136,7 @@ Rectangle {
             Text {
                 height: 15
                 width: 80
-                text: loadCount
+                text: peopleNum
                 font.family: "Arial"
                 font.pointSize: 12
                 verticalAlignment: Text.AlignVCenter

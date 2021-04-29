@@ -18,19 +18,16 @@ class ElevatorData : public QObject {
       int direction READ direction WRITE setDirection NOTIFY directionChanged)
   Q_PROPERTY(QVariantList list READ getList NOTIFY listChanged)
 
+  Q_PROPERTY(
+      int peopleNum READ peopleNum WRITE setpeopleNum NOTIFY peopleNumChanged)
 
-    Q_PROPERTY(
-        int peopleNum READ peopleNum WRITE setpeopleNum NOTIFY peopleNumChanged)
-
-
-
-    int peopleNum() { return _peopleNum; }
-    void setpeopleNum(int t) {
-      if (t != _peopleNum) {
-        _peopleNum = t;
-        emit peopleNumChanged();
-      }
+  int peopleNum() { return _peopleNum; }
+  void setpeopleNum(int t) {
+    if (t != _peopleNum) {
+      _peopleNum = t;
+      emit peopleNumChanged();
     }
+  }
 
   int floor() { return _floor; }
 
@@ -58,9 +55,6 @@ class ElevatorData : public QObject {
 
   Q_INVOKABLE void increaseFloor() { setFloor(floor() + 1); }
 
-
-
-
   QVariantList getList() const { return _list; }
 
   Q_INVOKABLE void setValue(int i, int val) {
@@ -72,14 +66,6 @@ class ElevatorData : public QObject {
     _list[i] = _list[i].toInt() + 1;
     emit listChanged();
   }
-
-
-
-
-
-
-
-
 
  public slots:
 
@@ -94,10 +80,10 @@ class ElevatorData : public QObject {
   void floorChanged();
   void directionChanged();
   void loadCountChanged();
-   void peopleNumChanged();
-   void fButton(int);
-    void fButtonup(int);
-     void fButtondown(int);
+  void peopleNumChanged();
+  void fButton(int);
+  void fButtonup(int);
+  void fButtondown(int);
 };
 
 #endif  // ELEVATORDATA_H

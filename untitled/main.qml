@@ -107,15 +107,15 @@ Window {
                                 width: 35
                                 height: 20
                                 text: "🔺"
-                                activated: false
+                                activated: button0.list[i]
                                 onClicked: {
-                                    console.log(i + "上")
+                                    button0.fButtonup(i)
                                 }
                             }
                             Text {
                                 height: 20
                                 width: 15
-                                text: "◁ " + "12"
+                                text: "◁ " + button0.list[i]
                                 font.family: "Arial"
                                 font.pointSize: 7
                                 color: "#a6a6a6"
@@ -127,15 +127,16 @@ Window {
                                 height: 20
                                 width: 35
                                 text: "🔻"
-                                activated: false
+                                activated: button1.list[i]
                                 onClicked: {
-                                    console.log(i + "下")
+                                    button1.fButtonDown(i)
                                 }
                             }
                             Text {
                                 height: 20
                                 width: 15
-                                text: "◁ " + "12"
+                                text: "◁ " + button1.list[i]
+
                                 font.family: "Arial"
                                 font.pointSize: 7
                                 color: "#a6a6a6"
@@ -160,7 +161,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:1.33}D{i:8}
+    D{i:0;formeditorZoom:0.75}D{i:8}
 }
 ##^##*/
 
