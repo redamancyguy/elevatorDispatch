@@ -23,13 +23,11 @@ Working::Working(QObject *parent) : QObject(parent) {
 
   QTimer *timer = new QTimer(this);
   QObject::connect(timer, &QTimer::timeout, this, &Working::flush);
-
     for(int i=0;i<4;i++){
         QObject::connect(elevatorDataList[i], &ElevatorData::fButton, &(data.elevators[i]), &Elevator::press);
     }
-
-    QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data.elevators[0]), &Elevator::press);
-//    QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown, &(this->data), &Dispatch::pressdown);
+    QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &this->data, &Dispatch::pressup);
+    QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown, &this->data, &Dispatch::pressdown);
   timer->start(200);
 }
 void Working::flush() {
