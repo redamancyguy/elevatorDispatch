@@ -12,7 +12,7 @@ Elevator::Elevator(): flag(0)
 	this->direction = false;
 }
 
-void Elevator::press(int index)
+void Elevator::press(const int index)
 {
 	if (this->flag == 1 && index % 2 != 1)
 	{
@@ -37,12 +37,12 @@ void Elevator::press(int index)
 	}
 }
 
-void Elevator::SetFlag(int data)
+void Elevator::SetFlag(const int data)
 {
 	this->flag = data;
 }
 
-void Elevator::SetMaxW(int data)
+void Elevator::SetMaxW(const int data)
 {
 	this->maxW = data;
 }
@@ -53,10 +53,7 @@ void Elevator::MoveUp()
 	{
 		this->place++;
 	}
-	else
-	{
-		return;
-	}
+	return;
 }
 
 void Elevator::MoveDown()
@@ -65,10 +62,7 @@ void Elevator::MoveDown()
 	{
 		this->place--;
 	}
-	else
-	{
-		return;
-	}
+	return;
 }
 
 void Elevator::Leave(int index)
@@ -138,7 +132,7 @@ int Elevator::GetW()
 
 bool Elevator::GetDirection() const { return this->direction; }
 
-void Elevator::SetDirection(bool d) { this->direction = d; }
+void Elevator::SetDirection(const bool d) { this->direction = d; }
 
 void Elevator::ChangeDirection() { this->direction = !this->direction; }
 
@@ -206,9 +200,9 @@ void Elevator::SetPlace(const int p) { this->place = p; }
 
 int Elevator::GetMaxW() const { return this->maxW; }
 
-void Elevator::PushPeopleStay(Person person) { this->peopleStay.push(person); }
+void Elevator::PushPeopleStay(const Person person) { this->peopleStay.push(person); }
 
-int Elevator::getStayNum() { return this->peopleStay.size(); }
+int Elevator::GetStayNum() const { return this->peopleStay.size(); }
 
 Person Elevator::GetPeopleStayFront()
 {
@@ -217,7 +211,7 @@ Person Elevator::GetPeopleStayFront()
 	return pp;
 }
 
-std::queue<Person>& Elevator::GetPeople(int index)
+std::queue<Person>& Elevator::GetPeople(const int index)
 {
 	return this->people[index];
 }

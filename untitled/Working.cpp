@@ -8,7 +8,7 @@ Working::Working(QObject* parent) : QObject(parent)
 {
 	for (int i = 0; i < 6; ++i) elevatorDataList.append(new ElevatorData());
 
-	QTimer* timer = new QTimer(this);
+	auto timer = new QTimer(this);
 	QObject::connect(timer, &QTimer::timeout, this, &Working::Flush);
 
 	for (int i = 0; i < 4; i++)
@@ -33,7 +33,7 @@ void Working::Flush()
 
 		if (this->data.GetElevator(i).GetDirection())
 		{
-			for (int j = 0;
+			for (size_t j = 0;
 			     j <
 			     this->data.GetPeopleUp(this->data.GetElevator(i).GetPlace()).size();
 			     j++)
@@ -59,7 +59,7 @@ void Working::Flush()
 		}
 		else
 		{
-			for (int j = 0;
+			for (size_t j = 0;
 			     j < this->data.GetPeopleDown(this->data.GetElevator(i).GetPlace())
 			             .size();
 			     j++)
@@ -170,7 +170,7 @@ void Working::Flush()
 			elevatorDataList[i]->setDirection(
 				this->data.GetElevator(i).GetDirection());
 		}
-		std::cout << data.GetElevator(i).getStayNum() << " "
+		std::cout << data.GetElevator(i).GetStayNum() << " "
 			<< data.GetElevator(i).GetW() << std::endl;
 		std::cout << std::endl;
 	}

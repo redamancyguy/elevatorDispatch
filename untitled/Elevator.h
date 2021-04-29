@@ -38,7 +38,7 @@ public:
 	int GetPeopleNums() const;
 	void PushPeopleStay(Person person);
 	Person GetPeopleStayFront();
-	int getStayNum();
+	int GetStayNum() const;
 	std::queue<Person>& GetPeople(int index);
 
 public slots:

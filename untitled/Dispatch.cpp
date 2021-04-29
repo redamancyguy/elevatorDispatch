@@ -24,7 +24,7 @@ Dispatch::Dispatch()
 	elevators[3].SetPlace(1);
 }
 
-void Dispatch::PressUp(int index, Person person)
+void Dispatch::PressUp(const int index, const Person person)
 {
 	PeopleUp[index].push(person);
 }
@@ -41,7 +41,7 @@ int Dispatch::GetPeopleNum() const
 }
 
 
-int Dispatch::GetPeopleNum(int flag) const
+int Dispatch::GetPeopleNum(const int flag) const
 {
 	int sum = 0;
 	for (int i = 0; i < fNum; i++)
@@ -56,18 +56,18 @@ int Dispatch::GetPeopleNum(int flag) const
 }
 
 
-void Dispatch::PressDown(int index, Person person)
+void Dispatch::PressDown(const int index, const Person person)
 {
 	PeopleDown[index].push(person);
 }
 
-void Dispatch::PressBtnDown(int index)
+void Dispatch::PressBtnDown(const int index)
 {
 	Person p(rand() % 21, rand() % 200, rand() % 21);
 	this->PeopleDown[index].push(p);
 }
 
-void Dispatch::PressBtnUp(int index)
+void Dispatch::PressBtnUp(const int index)
 {
 	Person p(rand() % 21, rand() % 200, rand() % 21);
 	this->PeopleUp[index].push(p);
@@ -78,7 +78,7 @@ void Dispatch::Display()
 	std::cout << "people up" << std::endl;
 	for (int i = 0; i < fNum; i++)
 	{
-		for (int j = 0; j < PeopleUp[i].size(); j++)
+		for (size_t j = 0; j < PeopleUp[i].size(); j++)
 		{
 			std::cout << i << " " << PeopleUp[i].front().GetW() << std::endl;
 			PeopleUp[i].push(PeopleUp[i].front());
@@ -89,7 +89,7 @@ void Dispatch::Display()
 	std::cout << "people down" << std::endl;
 	for (int i = 0; i < fNum; i++)
 	{
-		for (int j = 0; j < PeopleDown[i].size(); j++)
+		for (size_t j = 0; j < PeopleDown[i].size(); j++)
 		{
 			std::cout << i << " " << PeopleDown[i].front().GetW() << std::endl;
 			PeopleDown[i].push(PeopleDown[i].front());
@@ -104,19 +104,19 @@ void Dispatch::Display()
 	}
 }
 
-Elevator& Dispatch::GetElevator(int index) { return this->elevators[index]; }
+Elevator& Dispatch::GetElevator(const int index) { return this->elevators[index]; }
 
-std::queue<Person>& Dispatch::GetPeopleUp(int index)
+std::queue<Person>& Dispatch::GetPeopleUp(const int index)
 {
 	return this->PeopleUp[index];
 }
 
-std::queue<Person>& Dispatch::GetPeopleDown(int index)
+std::queue<Person>& Dispatch::GetPeopleDown(const int index)
 {
 	return this->PeopleDown[index];
 }
 
-void Dispatch::Leave(int index1, int index2)
+void Dispatch::Leave(const int index1, const int index2)
 {
 	this->elevators[index1].Leave(index2);
 }

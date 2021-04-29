@@ -10,7 +10,7 @@ ElevatorData::ElevatorData(QObject* parent)
 	}
 }
 
-void ElevatorData::setPeopleNum(int t)
+void ElevatorData::setPeopleNum(const int t)
 {
 	if (t != _peopleNum)
 	{
@@ -19,7 +19,7 @@ void ElevatorData::setPeopleNum(int t)
 	}
 }
 
-void ElevatorData::setFloor(int t)
+void ElevatorData::setFloor(const int t)
 {
 	if (t != _floor)
 	{
@@ -28,7 +28,7 @@ void ElevatorData::setFloor(int t)
 	}
 }
 
-void ElevatorData::setDirection(int t)
+void ElevatorData::setDirection(const int t)
 {
 	if (t != _direction)
 	{
@@ -37,13 +37,13 @@ void ElevatorData::setDirection(int t)
 	}
 }
 
-void ElevatorData::setValue(int i, int val)
+void ElevatorData::setValue(const int i, const int val)
 {
 	_list[i] = val;
 	emit listChanged();
 }
 
-void ElevatorData::increaseItem(int i)
+void ElevatorData::increaseItem(const int i)
 {
 	_list[i] = _list[i].toInt() + 1;
 	emit listChanged();
