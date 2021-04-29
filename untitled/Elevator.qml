@@ -88,7 +88,6 @@ Rectangle {
                         height: 20
                         width: 80
                         property var isCurr: elevData.floor == 20 - index
-                        property var used: elevData.list[index]
                         ElevatorPointer {
                             height: 20
                             width: 30
@@ -97,7 +96,18 @@ Rectangle {
                             anchors.top: parent.top
                             status: elevData.direction
                             reached: elevData.floor == 20 - index
+                            Text {
+                                visible: elevData.floor !== 20 - index
+                                color: "#a6a6a6"
+                                text: elevData.list[20 - index] + " ▷"
+                                anchors.fill: parent
+                                verticalAlignment: Text.AlignVCenter
+                                font.pointSize: 7
+                                font.family: "Arial"
+                                horizontalAlignment: Text.AlignHCenter
+                            }
                         }
+
                         ElevatorButton {
                             enabled: (odd && (index % 2))
                                      || (even && (index % 2 == 0))
@@ -140,7 +150,7 @@ Rectangle {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:3}
+    D{i:0;formeditorZoom:2}
 }
 ##^##*/
 
