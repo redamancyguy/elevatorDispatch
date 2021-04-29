@@ -9,7 +9,7 @@ import QtQuick.Controls 2.5
 Window {
     id: window
     visible: true
-    width: 580
+    width: 620
     height: 600
     minimumWidth: 580
     minimumHeight: 600
@@ -47,12 +47,25 @@ Window {
             anchors.top: parent.top
             Rectangle {
                 height: 57
-                width: 100
+                width: 140
                 Text {
-                    text: "Elevator Simulator\n\n@BladeHiker\n@sunwenli"
-                    anchors.fill: parent
+                    text: "Elevator Simulator"
+                    font.underline: true
+                    anchors.top: parent.top
+                    anchors.margins: 2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pointSize: 12
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: "Arial"
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                Text {
+                    text: "Frontend @BladeHiker\nBackend @sunwenli"
+                    anchors.bottom: parent.bottom
                     anchors.margins: 5
-                    font.pointSize: 7
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pointSize: 8
                     verticalAlignment: Text.AlignVCenter
                     font.family: "Arial"
                     horizontalAlignment: Text.AlignHCenter
@@ -61,17 +74,17 @@ Window {
 
             Item {
                 height: 462
-                width: 100
+                width: 140
                 ListView {
                     interactive: false
                     model: 21
                     spacing: 2
-                    width: 100
+                    width: 140
                     height: parent.height
                     delegate: Rectangle {
                         id: rectangle
                         property var i: 20 - index
-                        width: 105
+                        width: 140
                         height: 20
                         Row {
                             anchors.fill: parent
@@ -99,6 +112,17 @@ Window {
                                     console.log(i + "上")
                                 }
                             }
+                            Text {
+                                height: 20
+                                width: 15
+                                text: "◁ " + "12"
+                                font.family: "Arial"
+                                font.pointSize: 7
+                                color: "#a6a6a6"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
                             ElevatorButton {
                                 height: 20
                                 width: 35
@@ -107,6 +131,16 @@ Window {
                                 onClicked: {
                                     console.log(i + "下")
                                 }
+                            }
+                            Text {
+                                height: 20
+                                width: 15
+                                text: "◁ " + "12"
+                                font.family: "Arial"
+                                font.pointSize: 7
+                                color: "#a6a6a6"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
                             }
                         }
                     }
@@ -118,7 +152,7 @@ Window {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 height: 40
-                width: 100
+                width: 140
             }
         }
     }
@@ -126,7 +160,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75}D{i:8}
+    D{i:0;formeditorZoom:1.33}D{i:8}
 }
 ##^##*/
 
