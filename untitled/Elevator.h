@@ -35,6 +35,7 @@ public:
     int getmaxW();
     void setmaxW(int);
     int getPeopleNum();
+    int getPeopleNums();
     void pushpeopleStay(Person);
     Person getpeopleStayfront();
     int getStayNum();

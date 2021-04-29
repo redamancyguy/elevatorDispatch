@@ -81,6 +81,15 @@ int Elevator::getPeopleNum() {
   return sum+this->peopleStay.size();
 }
 
+
+int Elevator::getPeopleNums() {
+  int sum = 0;
+  for (int i = 0; i < fNum; i++) {
+    sum += this->people[i].size();
+  }
+  return sum;
+}
+
 int Elevator::getW() {
   int sum = 0;
   for (int i = 0; i < fNum; i++) {

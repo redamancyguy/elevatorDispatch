@@ -99,10 +99,53 @@ void Working::flush() {
               << this->data.getelevator(i).getPeopleNum() << std::endl;
     std::cout << "--------------------------" << this->data.getPeopleNum()
               << std::endl;
-    if (this->data.getelevator(i).getPeopleNum() > 0 ||
-        this->data.getPeopleNum() > 0) {
-      this->data.getelevator(i).move();
+
+
+    if(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0){
+        std::cout<<"\n=========================== \n"<<std::endl;
     }
+   else{
+        if(i==1){
+            if(this->data.getPeopleNum(1) > 0 || this->data.getelevator(i).getPeopleNum() > 0){
+                this->data.getelevator(i).move();
+            }
+        }
+        else if(i==2){
+            if(this->data.getPeopleNum(0) > 0 || this->data.getelevator(i).getPeopleNum() > 0){
+                this->data.getelevator(i).move();
+            }
+        }
+        else if (this->data.getelevator(i).getPeopleNum() > 0 ||
+            this->data.getPeopleNum() > 0) {
+                 this->data.getelevator(i).move();
+        }
+    }
+
+    if(this->data.getelevator(i).getdirection()){
+        int sum = 0;
+        for(int ii=this->data.getelevator(i).getplace();ii<fNum;ii++){
+            sum+=this->data.getelevator(i).getpeople(ii).size();
+            sum+=this->data.getpeopleup(ii).size();
+            sum+=this->data.getpeopledown(ii).size();
+        }
+        if(sum == 0 && !(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0)){
+            this->data.getelevator(i).changedirection();// ----------------------------------
+        }
+    }
+
+    else{
+        int sum = 0;
+        for(int ii=this->data.getelevator(i).getplace();ii>=0;ii--){
+            sum+=this->data.getelevator(i).getpeople(ii).size();
+            sum+=this->data.getpeopleup(ii).size();
+            sum+=this->data.getpeopledown(ii).size();
+        }
+        if(sum == 0 && !(this->data.getPeopleNum() == 0 && this->data.getelevator(i).getPeopleNums() == 0)){
+            this->data.getelevator(i).changedirection();// -------------------------------
+        }
+    }
+
+
   }
   std::cout << std::endl;
   std::cout << "***************" << std::endl;

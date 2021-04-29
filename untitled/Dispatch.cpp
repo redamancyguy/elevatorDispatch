@@ -38,6 +38,19 @@ int Dispatch::getPeopleNum() {
   return sum;
 }
 
+
+int Dispatch::getPeopleNum(int flag) {
+  int sum = 0;
+  for (int i = 0; i < fNum; i++) {
+      if(i%2==flag){
+          sum += this->peopleup[i].size();
+          sum += this->peopledown[i].size();
+      }
+  }
+  return sum;
+}
+
+
 void Dispatch::pressdown(int index, Person person) {
   peopledown[index].push(person);
 }

@@ -25,6 +25,7 @@ class Dispatch : public QObject {  //使用电梯的类
   std::queue<Person> &getpeopleup(int);
   std::queue<Person> &getpeopledown(int);
   int getPeopleNum();
+  int getPeopleNum(int);
   void leave(int, int);
  public slots:
   void pressBtnUp(int);
