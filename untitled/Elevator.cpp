@@ -4,12 +4,25 @@
 
 #include "Elevator.h"
 Elevator::Elevator() {
-  this->maxW = 10800;
+  this->maxW = 800;
   this->place = 0;
   this->direction = false;
 }
 
 void Elevator::press(int index) {
+
+
+
+    if(this->flag == 1 && index % 2 != 1){
+        std::cout<<"单号电梯不允许上双号"<<std::endl;
+        return;
+    }
+
+    if(this->flag == 2 && index % 2 != 0){
+        std::cout<<"双号电梯不允许上单号"<<std::endl;
+        return;
+    }
+
   if (!this->peopleStay.empty()) {
     this->people[index].push(this->peopleStay.front());
     this->peopleStay.pop();
@@ -18,8 +31,12 @@ void Elevator::press(int index) {
   }
 }
 
-void Elevator::press(int index, Person person) {
-  this->people[index].push(person);
+void Elevator::setFlag(int data){
+    this->flag = data;
+}
+
+void Elevator::setmaxW(int data){
+    this->maxW = data;
 }
 
 void Elevator::moveup() {
@@ -41,7 +58,7 @@ void Elevator::movedown() {
 void Elevator::leave(int index) {
   while (!this->people[index].empty()) {
     this->people[index].pop();
-    std::cout << "clear" << std::endl;
+    std::cout << "下楼咯" << std::endl;
   }
 }
 
@@ -61,7 +78,7 @@ int Elevator::getPeopleNum() {
   for (int i = 0; i < eNum; i++) {
     sum += this->people[i].size();
   }
-  return sum;
+  return sum+this->peopleStay.size();
 }
 
 int Elevator::getW() {
@@ -88,11 +105,47 @@ void Elevator::setdirection(bool direction) { this->direction = direction; }
 void Elevator::changedirection() { this->direction = !this->direction; }
 
 void Elevator::move() {
-  if (this->getdirection()) {
-    this->place++;
-  } else {
-    this->place--;
-  }
+
+    if(this->flag == 0){
+        if ((this->getplace() == 0 && this->getdirection()==0)||
+             (this->getplace() == 20 && this->getdirection()==1)) {
+          this->changedirection();
+            return;
+        }
+        if (this->getdirection()) {
+          this->place++;
+        } else {
+          this->place--;
+        }
+    }
+    else{
+        if(this->flag == 1)
+        {
+            if ((this->getplace() == 1&&this->getdirection()==0) ||
+                 (this->getplace() == 19&&this->getdirection()==1)) {
+              this->changedirection();
+                return;
+            }
+            if (this->getdirection()) {
+              this->place+=2;
+            } else {
+              this->place-=2;
+            }
+        }
+        if(this->flag == 2)
+        {
+            if ((this->getplace() == 0&&this->getdirection()==0) ||
+                    (this->getplace() == 20&&this->getdirection()==1)) {
+              this->changedirection();
+                return;
+            }
+            if (this->getdirection()) {
+              this->place+=2;
+            } else {
+              this->place-=2;
+            }
+        }
+    }
 }
 
 int Elevator::getplace() { return this->place; }

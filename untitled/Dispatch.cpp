@@ -4,14 +4,26 @@
 
 #include "Dispatch.h"
 Dispatch::Dispatch() {
-  elevators[1].setplace(5);
-  elevators[2].setplace(10);
-  elevators[3].setplace(15);
+    elevators[0].setFlag(1);
+    elevators[0].setplace(1);
+    elevators[0].setmaxW(800);
+
+    elevators[1].setFlag(2);
+  elevators[1].setplace(0);
+  elevators[1].setmaxW(800);
+
+  elevators[2].setFlag(0);
+  elevators[2].setmaxW(800);
+  elevators[2].setplace(0);
+
+  elevators[3].setFlag(0);
+  elevators[3].setmaxW(2000);
+  elevators[3].setplace(20);
 }
 
-void Dispatch::press(int index1, int index2, Person person) {
-  elevators[index1].press(index2, person);
-}
+//void Dispatch::press(int index1, int index2, Person person) {
+//  elevators[index1].press(index2, person);
+//}
 
 void Dispatch::pressup(int index, Person person) {
   peopleup[index].push(person);

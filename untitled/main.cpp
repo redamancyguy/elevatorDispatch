@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
        rootContex->setContextProperty("ele2", work.elevatorDataList[2]);
        rootContex->setContextProperty("ele3", work.elevatorDataList[3]);
 
+       rootContex->setContextProperty("button0", work.elevatorDataList[4]);
+       rootContex->setContextProperty("button1", work.elevatorDataList[5]);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

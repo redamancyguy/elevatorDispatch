@@ -9,10 +9,11 @@
 class  Dispatch{  //使用电梯的类
     std::queue<Person> peopleup[fNum];
     std::queue<Person> peopledown[fNum];//楼梯门口排队
-    Elevator elevators[eNum];
+
 public:
+    Elevator elevators[eNum];
     Dispatch();
-    void press(int , int, Person);//前往 int1  电梯 的 int2  楼层
+    //void press(int , int, Person);//前往 int1  电梯 的 int2  楼层
     void pressup(int, Person);
     void pressdown(int, Person);
     void display();
