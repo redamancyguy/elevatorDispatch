@@ -10,27 +10,30 @@ Working::Working(QObject *parent) : QObject(parent) {
 
   connect(this, &Working::nameChanged, [=]() { qDebug() << this->name(); });
 
-  for (int ii = 0; ii < 10; ii++) {
-    Person p(rand() % 21, rand() % 200,
-             rand() % 21);     // num  weight  destination
-    this->data.pressup(rand() % 21, p);  //从一楼 按 上楼按钮
-  }
-  for (int ii = 0; ii < 10; ii++) {
-    Person p(rand() % 21, rand() % 200,
-             rand() % 21);     // num  weight  destination
-    this->data.pressdown(rand() % 21, p);  //从一楼 按 上楼按钮
-  }
+  //  for (int ii = 0; ii < 10; ii++) {
+  //    Person p(rand() % 21, rand() % 200,
+  //             rand() % 21);               // num  weight  destination
+  //    this->data.pressup(rand() % 21, p);  //从一楼 按 上楼按钮
+  //  }
+  //  for (int ii = 0; ii < 10; ii++) {
+  //    Person p(rand() % 21, rand() % 200,
+  //             rand() % 21);                 // num  weight  destination
+  //    this->data.pressdown(rand() % 21, p);  //从一楼 按 上楼按钮
+  //  }
 
   QTimer *timer = new QTimer(this);
   QObject::connect(timer, &QTimer::timeout, this, &Working::flush);
 
-    for(int i=0;i<4;i++){
-        QObject::connect(elevatorDataList[i], &ElevatorData::fButton, &(data.elevators[i]), &Elevator::press);
-    }
+  for (int i = 0; i < 4; i++) {
+    QObject::connect(elevatorDataList[i], &ElevatorData::fButton,
+                     &(data.elevators[i]), &Elevator::press);
+  }
 
-    QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data.elevators[0]), &Elevator::press);
-//    QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown, &(this->data), &Dispatch::pressdown);
-  timer->start(200);
+  QObject::connect(elevatorDataList[4], &ElevatorData::fButtonup, &(data),
+                   &Dispatch::pressBtnUp);
+  QObject::connect(elevatorDataList[5], &ElevatorData::fButtondown,
+                   &(this->data), &Dispatch::pressBtnUp);
+  timer->start(500);
 }
 void Working::flush() {
   this->setName(this->name() + "!");
@@ -39,9 +42,9 @@ void Working::flush() {
     this->data.leave(
         i, this->data.getelevator(i).getplace());  //这一楼层的人都下电梯
 
-    for (int y = 0; y < 10; y++) {
-      this->data.getelevator(i).press(rand() % 20);
-    }
+    //    for (int y = 0; y < 10; y++) {
+    //      this->data.getelevator(i).press(rand() % 20);
+    //    }
 
     if (this->data.getelevator(i).getdirection()) {
       for (int ii = 0;
@@ -114,8 +117,9 @@ void Working::flush() {
     for (int ii = 0; ii <= fNum - 1; ii++) {
       std::cout << this->data.getelevator(i).getpeople(ii).size() << " ";
       elevatorDataList[i]->setValue(
-          ii, this->data.getelevator(i).getpeople(ii).size());// s nldn
-      elevatorDataList[i]->setpeopleNum(this->data.getelevator(i).getPeopleNum());
+          ii, this->data.getelevator(i).getpeople(ii).size());  // s nldn
+      elevatorDataList[i]->setpeopleNum(
+          this->data.getelevator(i).getPeopleNum());
       elevatorDataList[i]->setFloor(this->data.getelevator(i).getplace());
       elevatorDataList[i]->setDirection(
           this->data.getelevator(i).getdirection());
@@ -140,17 +144,17 @@ void Working::flush() {
   std::cout << std::endl;
   std::cout << "***************" << std::endl;
   std::cout << std::endl;
-//  for (int iii = 0; iii < elevatorDataList[0]->getList().size(); iii++) {
-//    qDebug() << elevatorDataList[0]->getList()[iii];
-//  }
+  //  for (int iii = 0; iii < elevatorDataList[0]->getList().size(); iii++) {
+  //    qDebug() << elevatorDataList[0]->getList()[iii];
+  //  }
   qDebug() << elevatorDataList[0]->peopleNum();
 }
 void Working::press() { this->setName("456"); }
 
 void Working::press1() {
-  for (int i = 0; i < 100; i++) {
-    Person p(rand() % 20, rand() % 200,
-             rand() % 20);     // num  weight  destination
-    this->data.pressup(1, p);  //从一楼 按 上楼按钮
-  }
+  //  for (int i = 0; i < 100; i++) {
+  //    Person p(rand() % 20, rand() % 200,
+  //             rand() % 20);     // num  weight  destination
+  //    this->data.pressup(1, p);  //从一楼 按 上楼按钮
+  //  }
 }
