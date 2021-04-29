@@ -42,9 +42,10 @@ target_wrapper.*
 # QtCreator CMake
 CMakeLists.txt.user*
 
-untitled/.vs
-untitled/*.vc*
-untitled/*.stash
+VisualElevator/.vs
+VisualElevator/*.vc*
+VisualElevator/*.stash
+VisualElevator/.idea
 debug
 out
 release
